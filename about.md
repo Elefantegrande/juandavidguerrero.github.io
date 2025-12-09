@@ -14,6 +14,6 @@ análisis multivariable y visualización, utilizando datos reales.
 Me destaco por traducir información compleja en conclusiones claras
 para audiencias no técnicas.
 
-🎯 Actualmente busco una posición como **Data Scientist Jr o Data Analyst**,
+Actualmente busco una posición como **Data Scientist Jr o Data Analyst**,
 donde pueda seguir creciendo y aportar valor en equipos data-driven.
 
