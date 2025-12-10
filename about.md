@@ -1,7 +1,3 @@
----
-layout: single
-title: "About Me"
----
 # Sobre mí
 
 Soy Data Scientist Jr con experiencia en análisis estadístico, data wrangling y
