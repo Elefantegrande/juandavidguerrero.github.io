@@ -12,7 +12,7 @@
 - Identificación de planes con mayor rentabilidad
 - Recomendaciones para optimización comercial
 
-🔗 [Ver repositorio](https://github.com/tuusuario/megaline-analysis)
+🔗 [Ver repositorio](prime.py)
 
 ---
 
