@@ -32,17 +32,5 @@
 
 ---
 
-## 🔄 Modelo Predictivo de Churn
-**Objetivo:** Predecir abandono de clientes y apoyar estrategias de retención.
 
-**Responsabilidades:**
-- Ingeniería de características
-- Modelos de clasificación
-- Evaluación con métricas (accuracy, recall, ROC-AUC)
-
-**Logros:**
-- Mejora en la capacidad predictiva
-- Propuestas de estrategias de retención basadas en datos
-
-🔗 [Ver repositorio](https://github.com/tuusuario/churn-model)
 
