@@ -1,7 +1,3 @@
----
-layout: single
-title: "Projects"
----
 # Proyectos
 
 ## 📈 Análisis de Ingresos por Planes — Megaline
