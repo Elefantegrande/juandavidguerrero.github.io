@@ -1,3 +1,9 @@
+---
+layout: home
+title: "Juan David Guerrero"
+subtitle: "Data Analyst | Data Scientist"
+---
+
 # Juan David Guerrero Parada
 ### Data Scientist Jr | Data Analyst  
 Python · SQL · Machine Learning
