@@ -12,7 +12,7 @@
 - Identificación de planes con mayor rentabilidad
 - Recomendaciones para optimización comercial
 
-🔗 [Ver repositorio](notebook.ipynb)
+🔗 [Ver repositorio](Megaline_analysis)
 
 ---
 
