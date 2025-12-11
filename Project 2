@@ -1,1 +1,161 @@
+# ============================================
+# PROYECTO DE ANÁLISIS: TAXIS CHICAGO
+# Paso 4 y 5 – Python
+# ============================================
+
+# --------------------------------------------
+# 1. Importar librerías
+# --------------------------------------------
+import pandas as pd
+import matplotlib.pyplot as plt
+from scipy import stats
+
+# --------------------------------------------
+# 2. Importar los datasets
+# --------------------------------------------
+# (En GitHub, estarán dentro de /data/)
+df1 = pd.read_csv('data/project_sql_result_01.csv')
+df2 = pd.read_csv('data/project_sql_result_04.csv')
+df3 = pd.read_csv('data/project_sql_result_07.csv')
+
+
+# ============================================
+#       PASO 4 – ANÁLISIS EXPLORATORIO
+# ============================================
+
+# --------------------------------------------
+# 3. Estudiar los datos
+# --------------------------------------------
+print("Información df1:\n")
+df1.info()
+print("\nInformación df2:\n")
+df2.info()
+
+
+# --------------------------------------------
+# 4. Top 10 barrios con mayor finalización de viajes
+# --------------------------------------------
+top10_barrios = df2.sort_values(by="average_trips", ascending=False).head(10)
+print("\nTop 10 barrios por finalización de viajes:\n")
+display(top10_barrios)
+
+
+# --------------------------------------------
+# 5. Gráficos
+# --------------------------------------------
+
+# --------------------------------------------
+# 5.1 Gráfico: Empresas de taxis vs número de viajes
+# --------------------------------------------
+plt.figure(figsize=(12, 6))
+plt.bar(df1["company_name"], df1["trips_amount"])
+plt.title("Número de viajes por empresa de taxis (15–16 noviembre 2017)")
+plt.xlabel("Empresa de taxis")
+plt.ylabel("Número de viajes")
+plt.xticks(rotation=90)
+
+plt.show()
+
+
+# --------------------------------------------
+# 5.2 Gráfico: Top 10 barrios por finalización del recorrido
+# --------------------------------------------
+plt.figure(figsize=(12, 6))
+plt.bar(top10_barrios["dropoff_location_name"], top10_barrios["average_trips"])
+plt.title("Top 10 barrios por finalizaciones del recorrido")
+plt.xlabel("Barrio")
+plt.ylabel("Promedio de viajes finalizados")
+plt.xticks(rotation=45, ha="right")
+
+plt.show()
+
+
+# --------------------------------------------
+# 6. Conclusiones Gráficas
+# --------------------------------------------
+
+"""
+CONCLUSIONES DEL ANÁLISIS EXPLORATORIO
+
+1. Empresas de taxis:
+   - Flash Cab es claramente la empresa con mayor número de viajes.
+   - Su volumen es casi el doble que el de la empresa inmediatamente siguiente.
+   - Esto puede indicar mayor flota o mayor presencia en la ciudad.
+
+   - Solo 14 empresas superan los 2500 viajes, lo cual sugiere que la mayoría
+     de las compañías son pequeñas o con baja frecuencia de servicio.
+
+2. Barrios:
+   - Hay cuatro barrios con un número de finalizaciones muy superior al resto.
+   - Esto podría indicar zonas con mayor actividad económica o mayor poder adquisitivo.
+   - 'Loop' es el barrio con más viajes finalizados; probablemente una zona central,
+     turística o económicamente activa.
+"""
+
+
+# ============================================
+#       PASO 5 – PRUEBA DE HIPÓTESIS
+# ============================================
+
+# --------------------------------------------
+# 1. Convertir start_ts a datetime
+# --------------------------------------------
+df3["start_ts"] = pd.to_datetime(df3["start_ts"])
+
+# --------------------------------------------
+# 2. Filtrar viajes realizados en sábado
+# --------------------------------------------
+df_saturday = df3[df3["start_ts"].dt.dayofweek == 5]
+
+# --------------------------------------------
+# 3. Dividir entre días lluviosos y no lluviosos
+# --------------------------------------------
+rainy = df_saturday[df_saturday["weather_conditions"] == "Bad"]["duration_seconds"]
+non_rainy = df_saturday[df_saturday["weather_conditions"] == "Good"]["duration_seconds"]
+
+print("Cantidad sábados lluviosos:", len(rainy))
+print("Cantidad sábados sin lluvia:", len(non_rainy))
+
+
+# --------------------------------------------
+# 4. Prueba T de Welch
+# --------------------------------------------
+t_stat, p_value = stats.ttest_ind(rainy, non_rainy, equal_var=False)
+
+print("\n===== RESULTADOS DEL TEST =====")
+print("t-stat:", t_stat)
+print("p-value:", p_value)
+
+
+# --------------------------------------------
+# 5. Interpretación
+# --------------------------------------------
+alpha = 0.05
+
+print("\n===== CONCLUSIÓN =====")
+
+if p_value < alpha:
+    print("Se rechaza H0 → Sí hay diferencia significativa en la duración promedio.")
+else:
+    print("No se puede rechazar H0 → No hay evidencia de diferencia en la duración.")
+
+"""
+FORMULACIÓN DE HIPÓTESIS:
+
+H0 (hipótesis nula): 
+   La duración promedio de los viajes los sábados NO cambia cuando llueve.
+
+H1 (hipótesis alternativa):
+   La duración promedio de los viajes los sábados SÍ cambia cuando llueve.
+
+CRITERIO:
+   Se usa la prueba T de Welch porque:
+   - Compara dos medias independientes
+   - No requiere que las varianzas sean iguales
+   - Es estándar para comparar grupos como “Bad” vs “Good”
+
+CONCLUSIÓN:
+   Dependiendo del valor p, concluimos si la lluvia afecta o no
+   la duración promedio de los viajes del Loop a O'Hare.
+"""
 
